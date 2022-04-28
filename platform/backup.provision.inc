@@ -111,7 +111,7 @@ function drush_provision_drupal_provision_backup() {
   } else {
     $command = $command_base . $command_arguments;
   }
-  $command .= ' .';
+  $command .= ' --files-from /dev/null';
   $result = drush_shell_exec($command,  $backup_file);
 
   // Get the size of the backup
