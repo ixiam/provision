@@ -111,7 +111,18 @@ function drush_provision_drupal_provision_backup() {
   } else {
     $command = $command_base . $command_arguments;
   }
-  $command .= ' .';
+  // Find out what task we're using.
+  $taskName = drush_get_option('task', FALSE, 'process');
+
+  // If there is a task and it's a delete task, skip the backup creation
+  if ($taskName && ($taskName == 'delete')) {
+    drush_log(dt("Skipping creation of backups"));
+    $command .= ' --files-from /dev/null';
+    drush_unset_option('task', 'process');
+  }
+  else {
+    $command .= ' .';
+  }
   $result = drush_shell_exec($command,  $backup_file);
 
   // Get the size of the backup

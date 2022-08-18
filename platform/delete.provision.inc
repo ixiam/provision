@@ -11,6 +11,7 @@ function drush_provision_drupal_pre_provision_delete($backup_file = NULL) {
     }
     else {
       drush_log(dt('Invoking drush provision-backup...'));
+      drush_set_option('task', 'delete', 'process');
       drush_invoke("provision-backup", $backup_file);
       drush_unset_option('force', 'process');
     }
